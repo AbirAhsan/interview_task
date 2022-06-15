@@ -1,3 +1,6 @@
-const String loader = "assets/logo/loading.gif";
+abstract class CustomImages {
+  static const String loader = "assets/logo/loading.gif";
 
-//<=========================== Icons
+//<=========================== Images
+  static const String splashImage = "assets/images/splash.png";
+}
