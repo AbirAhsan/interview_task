@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:interview_task/model/post_details_model.dart';
 import 'package:interview_task/model/user_details_model.dart';
 import 'package:interview_task/services/network_service/user_api_service.dart';
 
@@ -11,10 +12,14 @@ class UserController extends GetxController {
   //<=================================== User Details List
   RxList<UserDetailsModel?> userDetailsList =
       List<UserDetailsModel?>.empty(growable: true).obs;
+  //<=================================== Post Details List
+  RxList<PostDetails?> postDetailsList =
+      List<PostDetails?>.empty(growable: true).obs;
 
   @override
   void onInit() {
     fetchUserList();
+    fetchPostList();
     super.onInit();
   }
 
@@ -27,6 +32,27 @@ class UserController extends GetxController {
       CustomEassyLoading().startLoading();
       UserApiService.getUserList().then((resp) {
         userDetailsList.value = resp.toList();
+
+        CustomEassyLoading().stopLoading();
+      }, onError: (err) {
+        CustomEassyLoading().stopLoading();
+      });
+    } on SocketException catch (e) {
+      CustomEassyLoading().stopLoading();
+      debugPrint('error $e');
+    } catch (e) {
+      CustomEassyLoading().stopLoading();
+    }
+  }
+//
+//
+  //<================================ Get User List
+
+  Future<void> fetchPostList() async {
+    try {
+      CustomEassyLoading().startLoading();
+      UserApiService.getPostList().then((resp) {
+        postDetailsList.value = resp.toList();
 
         CustomEassyLoading().stopLoading();
       }, onError: (err) {

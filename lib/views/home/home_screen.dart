@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:interview_task/model/user_details_model.dart';
+import 'package:interview_task/services/page_navigation.dart';
+import 'package:interview_task/views/home/user_post_list_screen.dart';
 
 import '../../controller/user_controller.dart';
 
@@ -22,45 +24,51 @@ class HomeScreen extends StatelessWidget {
             UserDetailsModel? userDetails = userCtrl.userDetailsList[index];
             return Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Card(
-                  elevation: 15.0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextWithIcon(
-                          iconData: Icons.person,
-                          userDetails:
-                              "${userDetails!.name} (${userDetails.username})",
-                        ),
-                        TextWithIcon(
-                          iconData: Icons.email,
-                          userDetails: userDetails.email,
-                        ),
-                        TextWithIcon(
-                          iconData: Icons.location_on_outlined,
-                          userDetails:
-                              "${userDetails.address!.suite} ${userDetails.address!.street} ${userDetails.address!.city} ${userDetails.address!.zipcode}",
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextWithIcon(
-                          iconData: Icons.call,
-                          userDetails: "${userDetails.phone}",
-                        ),
-                        TextWithIcon(
-                          iconData: Icons.wordpress,
-                          userDetails: "${userDetails.website}",
-                        ),
-                        TextWithIcon(
-                          iconData: Icons.work_outline,
-                          userDetails: "${userDetails.company!.name}",
-                        ),
-                      ],
-                    ),
-                  )),
+              child: InkWell(
+                onTap: () =>
+                    PageNavigationService.generalNavigation(UserPostListScreen(
+                  userDetails: userDetails,
+                )),
+                child: Card(
+                    elevation: 15.0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextWithIcon(
+                            iconData: Icons.person,
+                            userDetails:
+                                "${userDetails!.name} (${userDetails.username})",
+                          ),
+                          TextWithIcon(
+                            iconData: Icons.email,
+                            userDetails: userDetails.email,
+                          ),
+                          TextWithIcon(
+                            iconData: Icons.location_on_outlined,
+                            userDetails:
+                                "${userDetails.address!.suite} ${userDetails.address!.street} ${userDetails.address!.city} ${userDetails.address!.zipcode}",
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextWithIcon(
+                            iconData: Icons.call,
+                            userDetails: "${userDetails.phone}",
+                          ),
+                          TextWithIcon(
+                            iconData: Icons.wordpress,
+                            userDetails: "${userDetails.website}",
+                          ),
+                          TextWithIcon(
+                            iconData: Icons.work_outline,
+                            userDetails: "${userDetails.company!.name}",
+                          ),
+                        ],
+                      ),
+                    )),
+              ),
             );
           },
         ),
