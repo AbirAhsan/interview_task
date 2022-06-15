@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:interview_task/model/user_details_model.dart';
+import 'package:interview_task/services/page_navigation.dart';
+import 'package:interview_task/views/home/post_screen.dart';
 
 import '../../controller/user_controller.dart';
 import '../../model/post_details_model.dart';
@@ -30,20 +32,28 @@ class UserPostListScreen extends StatelessWidget {
                 .toList()[index];
             return Padding(
                 padding: const EdgeInsets.all(5.0),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        child: Icon(Icons.comment),
-                      ),
-                      title: Text(
-                        "${postDetails!.title}",
-                        maxLines: 1,
-                      ),
-                      subtitle: Text(
-                        "${postDetails.body}",
-                        maxLines: 2,
+                child: InkWell(
+                  onTap: () {
+                    PageNavigationService.generalNavigation(PostScreen(
+                      userDetails: userDetails!,
+                      postDetails: postDetails!,
+                    ));
+                  },
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: ListTile(
+                        leading: const CircleAvatar(
+                          child: Icon(Icons.comment),
+                        ),
+                        title: Text(
+                          "${postDetails!.title}",
+                          maxLines: 1,
+                        ),
+                        subtitle: Text(
+                          "${postDetails.body}",
+                          maxLines: 2,
+                        ),
                       ),
                     ),
                   ),

@@ -16,6 +16,8 @@ class UserController extends GetxController {
   RxList<PostDetails?> postDetailsList =
       List<PostDetails?>.empty(growable: true).obs;
 
+  Rx<PostDetails?> postDetails = PostDetails().obs;
+
   @override
   void onInit() {
     fetchUserList();
@@ -53,6 +55,28 @@ class UserController extends GetxController {
       CustomEassyLoading().startLoading();
       UserApiService.getPostList().then((resp) {
         postDetailsList.value = resp.toList();
+
+        CustomEassyLoading().stopLoading();
+      }, onError: (err) {
+        CustomEassyLoading().stopLoading();
+      });
+    } on SocketException catch (e) {
+      CustomEassyLoading().stopLoading();
+      debugPrint('error $e');
+    } catch (e) {
+      CustomEassyLoading().stopLoading();
+    }
+  }
+
+  //
+//
+  //<================================ Get User List
+
+  Future<void> fetchPostDetails(int postID) async {
+    try {
+      CustomEassyLoading().startLoading();
+      UserApiService.getPostDetails(postID).then((resp) {
+        postDetails.value = resp;
 
         CustomEassyLoading().stopLoading();
       }, onError: (err) {

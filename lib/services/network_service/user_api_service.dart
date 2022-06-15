@@ -27,7 +27,7 @@ abstract class UserApiService {
       List<UserDetailsModel?> mapdatalist = decoded
           .map<UserDetailsModel?>((b) => UserDetailsModel.fromJson(b))
           .toList();
-      print(mapdatalist);
+
       return mapdatalist;
     } else {
       throw {
@@ -54,8 +54,29 @@ abstract class UserApiService {
 
       List<PostDetails?> mapdatalist =
           decoded.map<PostDetails?>((b) => PostDetails.fromJson(b)).toList();
-      print(mapdatalist);
+
       return mapdatalist;
+    } else {
+      throw {
+        "code": response.statusCode,
+        "body": response.body,
+      };
+    }
+  }
+
+  static Future<PostDetails?> getPostDetails(int postID) async {
+    Uri url = Uri.parse("${AppConfig.rawBaseUrl}/posts/$postID");
+
+    var response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        "Accept": 'application/json',
+      },
+    );
+    debugPrint("${response.statusCode} ${url}");
+    if (response.statusCode == 200) {
+      return PostDetails.fromJson(jsonDecode(response.body));
     } else {
       throw {
         "code": response.statusCode,
